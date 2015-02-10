@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNet.Mvc;
-using MvcSample.Web.Models;
+using Microsoft.AspNet.Mvc;
+using Jander.HspService.Models;
 
-namespace MvcSample.Web
+namespace Jander.HspService.Controllers
 {
     public class HomeController : Controller
     {
