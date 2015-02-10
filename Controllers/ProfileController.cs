@@ -9,21 +9,23 @@ namespace Jander.HspService.Controllers
     [Route("api/[controller]")]
     public class ProfileController : Controller
     {
-        static readonly List<Profile> _items = new List<Profile>()
+        private readonly IProfileRepository _repository;
+
+        public ProfileController(IProfileRepository repository)
         {
-            new Profile { Id = 1, Email = "ella@jander.me" }
-        };
+            _repository = repository;
+        }
 
         [HttpGet]
         public IEnumerable<Profile> GetAll()
         {
-            return _items;
+            return _repository.AllProfiles;
         }
 
         [HttpGet("{id:int}", Name = "GetByIdRoute")]
         public IActionResult GetById (int id)
         {
-            var item = _items.FirstOrDefault(x => x.Id == id);
+            var item = _repository.GetById(id);
             if (item == null)
             {
                 return HttpNotFound();
@@ -41,8 +43,7 @@ namespace Jander.HspService.Controllers
             }
             else
             {
-                profile.Id = 1+ _items.Max(x => (int?)x.Id) ?? 0;
-                _items.Add(profile);
+                _repository.Add(profile);
 
                 string url = Url.RouteUrl("GetByIdRoute", new { id = profile.Id },
                     Request.Scheme, Request.Host.ToUriComponent());
@@ -55,13 +56,13 @@ namespace Jander.HspService.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteItem(int id)
         {
-            var item = _items.FirstOrDefault(x => x.Id == id);
-            if (item == null)
+            if (_repository.TryDelete(id))
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(204); // 201 No Content
+
             }
-            _items.Remove(item);
-            return new HttpStatusCodeResult(204); // 201 No Content
+
+            return HttpNotFound();
         }
     }
 }

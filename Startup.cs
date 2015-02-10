@@ -1,6 +1,7 @@
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
+using Jander.HspService.Models;
 
 namespace KWebStartup
 {
@@ -9,16 +10,14 @@ namespace KWebStartup
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            // New code
+            services.AddSingleton<IProfileRepository, MemoryProfileRepository>();
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseStaticFiles();
-
-            app.UseServices(services =>
-            {
-                services.AddMvc();
-            });
 
             // Add MVC to the request pipeline
             app.UseMvc(routes =>
