@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/obj/Debug/ProjectRawReferences/ASP.NET 5.0
+.vs
+
+/wwwroot/bin
+[Oo]bj/
+[Bb]in
+*.kproj.user
