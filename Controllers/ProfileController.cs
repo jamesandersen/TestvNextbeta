@@ -23,7 +23,7 @@ namespace Jander.HspService.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetByIdRoute")]
-        public IActionResult GetById (int id)
+        public IActionResult GetById (string id)
         {
             var item = _repository.GetById(id);
             if (item == null)
@@ -54,7 +54,7 @@ namespace Jander.HspService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteItem(int id)
+        public IActionResult DeleteItem(string id)
         {
             if (_repository.TryDelete(id))
             {
